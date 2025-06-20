@@ -6,5 +6,18 @@
 </head>
 <body>
   <h1>Index Page</h1>
+  <button onclick="goToMypage()">마이페이지</button>
+
+  <script>
+      function goToMypage() {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          alert("로그인이 필요합니다.");
+          location.href = "/login";
+          return;
+        }
+        location.href = "/mypage";  // 정적 HTML로 이동
+      }
+  </script>
 </body>
 </html>
