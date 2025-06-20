@@ -21,7 +21,7 @@ public class QnA extends BaseEntity{
     private String answer;
 
     @Column(name = "is_answered")
-    private String isAnswered; // 답변여부
+    private String isAnswered; // 답변여부(Y/N)
 
     @Column(name = "answertime")
     private LocalDateTime answeredAt;
