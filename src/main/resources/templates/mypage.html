@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>마이페이지</title>
+</head>
+<body>
+
+<h2>회원 정보</h2>
+<div id="userInfo">
+    <p><strong>이름:</strong> <span id="name"></span></p>
+    <p><strong>아이디:</strong> <span id="username"></span></p>
+    <p><strong>전화번호:</strong> <span id="phone"></span></p>
+    <p><strong>회원 유형:</strong> <span id="role"></span></p>
+</div>
+
+<h2>문의 내역</h2>
+<table border="1">
+    <thead>
+    <tr>
+        <th>제목</th>
+        <th>작성일</th>
+        <th>답변 여부</th>
+        <th>보기</th>
+    </tr>
+    </thead>
+    <tbody id="qnaTableBody">
+    <tr><td colspan="4">불러오는 중...</td></tr>
+    </tbody>
+</table>
+
+<script>
+    window.onload = function () {
+      let token = localStorage.getItem("token");
+      if (!token) {
+        alert("로그인이 필요합니다.");
+        location.href = "/login";
+        return;
+      }
+
+      fetch("/api/mypage", {
+        method: "GET",
+        headers: {
+          "Authorization": token
+        }
+      })
+      .then(res => {
+        if (!res.ok) throw new Error("인증 실패");
+        return res.json();
+      })
+      .then(data => {
+        const member = data.member;
+        const qnaList = data.qnaList;
+
+        document.getElementById("name").innerText = member.name;
+        document.getElementById("username").innerText = member.username;
+        document.getElementById("phone").innerText = member.phone;
+        document.getElementById("role").innerText = member.role === "DOCTOR" ? "의사회원" : "일반회원";
+
+        const tbody = document.getElementById("qnaTableBody");
+        tbody.innerHTML = "";
+
+        if (!qnaList || qnaList.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;">문의 내역이 없습니다.</td></tr>`;
+        } else {
+          qnaList.forEach(qna => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+              <td>${qna.title}</td>
+              <td>${qna.createdAt?.split('T')[0] || ''}</td>
+              <td style="color: ${qna.isAnswered === 'Y' ? 'green' : 'red'}">
+                ${qna.isAnswered === 'Y' ? '답변 완료' : '답변 대기'}
+              </td>
+              <td><a href="/qna/view/${qna.id}">보기</a></td>
+            `;
+            tbody.appendChild(tr);
+          });
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        alert("로그인이 필요합니다.");
+        location.href = "/login";
+      });
+    }
+</script>
+
+</body>
+</html>

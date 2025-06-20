@@ -31,6 +31,7 @@
     </style>
 </head>
 <body>
+<button onclick="goToMypage()">마이페이지</button>
 <h1>진료 과를 선택하세요</h1>
 
 <form action="/dept/list" method="get">
@@ -38,6 +39,18 @@
         <button class="dept-btn" name="name" th:value="${dept}" th:text="${dept}"></button>
     </div>
 </form>
+
+  <script>
+      function goToMypage() {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          alert("로그인이 필요합니다.");
+          location.href = "/login";
+          return;
+        }
+        location.href = "/mypage";  // 정적 HTML로 이동
+      }
+  </script>
 </body>
 </html>
 
