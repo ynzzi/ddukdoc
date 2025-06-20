@@ -7,11 +7,9 @@ import com.example.ddukdoc.repository.QnARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -83,8 +81,36 @@ public class DeptController {
 
     // 질문하기 버튼
     // 질문 등록 (”/regist”)
+
+
     // 질문 삭제 (”/delete”)
+    @PostMapping("/delete")
+    public String deleteQna(@RequestParam("id") Integer qnaId) {
+        QnA qna = qnARepository.findById(qnaId).orElse(null);
+        if (qna != null) {
+            qnARepository.delete(qna);
+        }
+        return "redirect:/";
+    }
+
     // 질문 상세 조회 (”/detail”)
+    @GetMapping("/detail")
+    public String detail(@RequestParam("id") Integer qnaId, Model model, Principal principal) {
+        QnA qna = qnARepository.findById(qnaId).orElse(null);
+        if (qna == null) {
+            return "redirect:/"; // 글 없으면 메인으로 이동
+        }
+
+        boolean isOwner = false;
+        if (principal != null && qna.getWriter() != null) {
+            isOwner = principal.getName().equals(qna.getWriter().getUsername());
+        }
+
+        model.addAttribute("qna", qna);
+        model.addAttribute("isOwner", isOwner);
+
+        return "detail";
+    }
 
 
 }

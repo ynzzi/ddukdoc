@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>질문 상세조회</title>
+</head>
+<body>
+<h1 th:text="${qna.title}">질문 제목</h1>
+
+<p><strong>작성일:</strong>
+  <span th:text="${qna.createdAt != null ? #temporals.format(qna.createdAt, 'yyyy-MM-dd HH:mm') : '등록일 없음'}"></span>
+</p>
+
+<p><strong>내용:</strong></p>
+<p th:text="${qna.content}"></p>
+
+<hr/>
+
+<div th:if="${qna.isAnswered == 'Y'}">
+  <h2>답변</h2>
+  <p th:text="${qna.answer}"></p>
+  <p><strong>답변 작성일:</strong>
+    <span th:text="${qna.answeredAt != null ? #temporals.format(qna.answeredAt, 'yyyy-MM-dd HH:mm') : '등록일 없음'}"></span>
+  </p>
+</div>
+
+<div th:if="${qna.isAnswered != 'Y'}">
+  <p>아직 답변이 달리지 않았습니다.</p>
+</div>
+
+<hr/>
+
+<!-- 본인이 작성한 글일 경우 삭제 버튼 표시
+<form th:if="${isOwner}" th:action="@{/dept/delete}" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+  <input type="hidden" name="id" th:value="${qna.id}"/>
+  <button type="submit">삭제</button>
+</form>
+-->
+
+
+
+<a href="javascript:history.back()">뒤로가기</a>
+</body>
+</html>
