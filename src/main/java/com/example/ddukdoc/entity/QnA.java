@@ -1,11 +1,13 @@
 package com.example.ddukdoc.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "d_qna")
+@Data
 public class QnA extends BaseEntity{
 
     @Id
@@ -18,8 +20,10 @@ public class QnA extends BaseEntity{
 
     private String answer;
 
-    private String is_answerd; // 답변여부
+    @Column(name = "is_answered")
+    private String isAnswered; // 답변여부
 
+    @Column(name = "answertime")
     private LocalDateTime answeredAt;
 
     // 작성자 (Member 테이블 외래키)
