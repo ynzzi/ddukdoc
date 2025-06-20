@@ -23,6 +23,7 @@ public class QnA extends BaseEntity{
     @Column(name = "is_answered")
     private String isAnswered; // 답변여부
 
+    @Column(name = "answertime")
     private LocalDateTime answeredAt;
 
     // 작성자 (Member 테이블 외래키)
@@ -35,3 +36,4 @@ public class QnA extends BaseEntity{
     @JoinColumn(name = "doctor_id")
     private Member doctor;
 }
+
