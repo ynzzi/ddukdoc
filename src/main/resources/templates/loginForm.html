@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>로그인</h1>
+<hr>
+<form>
+    아이디 <input type="text" id="username" name="username"><br>
+    비밀번호 <input type="password" id="password" name="password"><br>
+    <button type="button" onclick="login()">로그인</button>
+</form>
+
+<script>
+    function login(){
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        const member = {
+            username: username,
+            password: password
+        };
+        const xhr = new XMLHttpRequest();
+        xhr.onload = function(){
+            if(xhr.status === 200){
+                const token = xhr.getResponseHeader('Authorization');
+                if(token){
+                    localStorage.setItem('token', token);
+                    location.href='/';
+                }else{
+                    console.log('토큰 생성 실패');
+                }
+            }
+            else if(xhr.status === 401){
+                location.href='/login';
+                alert(xhr.responseText);
+            }
+            else{
+                console.log('오류 발생');
+            }
+        }
+        xhr.open('post', '/login/loginReg');
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(member));
+    }
+</script>
+</body>
+</html>

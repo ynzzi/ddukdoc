@@ -32,7 +32,7 @@ public class QnA extends BaseEntity{
     private Member writer;
 
     // 답변자 (Doctor 테이블 외래키)
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "doctor_id")
     private Member doctor;
 }
