@@ -31,6 +31,10 @@
     <p><strong>진료과목:</strong> <span id="doc-treat"></span></p>
     <p><strong>진료시간:</strong> <span id="doc-time"></span></p>
 </div>
+<!-- 등록 버튼 (선택한 의사 정보 아래에 추가) -->
+<div style="margin-top: 10px;">
+    <button id="go-write-btn" style="display: none;">문의 등록</button>
+</div>
 
 <!-- 🔹 질문 목록 -->
 <div id="doctor-questions" style="margin-top: 20px;">
@@ -52,13 +56,16 @@
 </div>
 
 <script>
+    let selectedDoctorId = null;
+
     $(document).on('click', '.doctor-item', function () {
-        let doctorId = $(this).data('id');
+        selectedDoctorId = $(this).data('id');
+        $('#go-write-btn').show();
 
         $.ajax({
             url: '/dept/doctor',
             method: 'GET',
-            data: { id: doctorId },
+            data: { id: selectedDoctorId },
             success: function(data) {
                 $('#doc-name').text(data.doctor.name);
                 $('#doc-hospital').text(data.doctor.hospital);
@@ -69,7 +76,7 @@
                 let tbody = '';
                 data.qnaList.forEach(qna => {
                     tbody += '<tr>' +
-                        '<td><a href="/qna/detail?id=' + qna.id + '">' + qna.title + '</a></td>' +
+                        '<td><a href="/dept/detail?id=' + qna.id + '">' + qna.title + '</a></td>' +
                         '<td>' + (qna.isAnswered === 'Y' ? '답변 완료' : '미답변') + '</td>' +
                         '</tr>';
                 });
@@ -80,7 +87,14 @@
             }
         });
     });
+
+    $('#go-write-btn').on('click', function () {
+        if (selectedDoctorId) {
+            location.href = '/qna/write?doctorId=' + selectedDoctorId;
+        }
+    });
 </script>
+
 
 </body>
 </html>
