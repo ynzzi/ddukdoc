@@ -129,6 +129,6 @@ public class DoctorController {
     @GetMapping("/main")
     public String goMain(){
 
-        return "index";
+        return "redirect:/";
     }
 }
