@@ -1,8 +1,73 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>마이페이지</title>
+    <style>
+        :root {
+          --mint-primary: #3EB489;
+          --mint-light: #E0F2F1;
+          --mint-dark: #2A7864;
+          --gray-light: #F7F9FA;
+          --gray-mid: #B0B9BD;
+          --gray-dark: #4A4A4A;
+          --white: #FFFFFF;
+        }
+        body {
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          background-color: var(--gray-light);
+          color: var(--gray-dark);
+          margin: 2rem auto;
+          max-width: 700px;
+          padding: 1rem 2rem;
+          line-height: 1.5;
+        }
+        h2 {
+          color: var(--mint-dark);
+          margin-top: 2rem;
+          margin-bottom: 1rem;
+          border-left: 6px solid var(--mint-primary);
+          padding-left: 0.8rem;
+          font-weight: 700;
+        }
+        #userInfo p {
+          font-size: 1.05rem;
+          margin: 0.3rem 0;
+        }
+        #userInfo strong {
+          color: var(--mint-dark);
+          width: 90px;
+          display: inline-block;
+        }
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-top: 1rem;
+          background: var(--white);
+          box-shadow: 0 2px 8px rgba(62, 180, 137, 0.1);
+        }
+        th, td {
+          border: 1px solid var(--mint-light);
+          padding: 0.6rem 1rem;
+          text-align: center;
+          font-size: 1rem;
+        }
+        th {
+          background-color: var(--mint-light);
+          color: var(--mint-dark);
+          font-weight: 600;
+        }
+        a {
+          color: var(--mint-primary);
+          font-weight: 600;
+          text-decoration: none;
+          transition: color 0.3s ease;
+        }
+        a:hover {
+          color: var(--mint-dark);
+          text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
 
@@ -15,7 +80,7 @@
 </div>
 
 <h2>문의 내역</h2>
-<table border="1">
+<table>
     <thead>
     <tr>
         <th>제목</th>
