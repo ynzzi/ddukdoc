@@ -5,10 +5,14 @@ import com.example.ddukdoc.entity.Member;
 import com.example.ddukdoc.repository.MemberRepository;
 import com.example.ddukdoc.utils.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import java.util.Map;
+
 
 @Controller
 @RequestMapping("/login")
@@ -25,17 +29,33 @@ public class LoginController {
     }
 
     @PostMapping("/loginReg")
-    public ResponseEntity<?> loginReg(@RequestBody LoginUser loginUser){
-        Member loginMember = memberRepository.findByUsernameAndPassword(loginUser.getUsername(), loginUser.getPassword());
+    public ResponseEntity<?> loginReg(@RequestBody LoginUser loginUser) {
+        Member loginMember = memberRepository.findByUsernameAndPassword(
+                loginUser.getUsername(),
+                loginUser.getPassword()
+        );
 
-        if(loginMember == null){
+        if (loginMember == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                                 .body("아이디 또는 비밀번호를 확인하세요.");
+                    .body("아이디 또는 비밀번호를 확인하세요.");
         }
-        String token = makeToken(loginMember);
+
+        // 토큰 생성
+        String jwt = jwtUtil.createJwt(loginMember);
+
+        // 쿠키 심기
+        ResponseCookie cookie = ResponseCookie.from("token", jwt)
+                .path("/")
+                .httpOnly(true)
+                .build();
+
+        Map<String, Object> body = Map.of(
+                "role", loginMember.getRole()
+        );
+
         return ResponseEntity.ok()
-                             .header("Authorization", token)
-                             .build();
+                .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .body(body);
     }
 
     private String makeToken(Member member){

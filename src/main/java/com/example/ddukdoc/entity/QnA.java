@@ -36,3 +36,4 @@ public class QnA extends BaseEntity{
     @JoinColumn(name = "doctor_id")
     private Member doctor;
 }
+
