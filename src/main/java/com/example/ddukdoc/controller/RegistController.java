@@ -1,5 +1,6 @@
 package com.example.ddukdoc.controller;
 
+import com.example.ddukdoc.dto.ClinicHours;
 import com.example.ddukdoc.entity.Doctor;
 import com.example.ddukdoc.entity.Member;
 import com.example.ddukdoc.repository.DoctorRepository;
@@ -44,12 +45,15 @@ public class RegistController {
     }
 
     @PostMapping("/doctorRegist")
-    public String doctorResist(Member member, Doctor doctor) {
+    public String doctorResist(Member member, ClinicHours clinicHours, Doctor doctor) {
+
+        String hTime = clinicHours.getStartHour() + "~" + clinicHours.getEndHour();
 
         member.setRole("DOCTOR");
         memberRepository.save(member);
 
         doctor.setMember(member);
+        doctor.setHTime(hTime);
         doctorRepository.save(doctor);
 
         return "loginForm";

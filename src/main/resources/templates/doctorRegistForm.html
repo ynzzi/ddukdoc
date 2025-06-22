@@ -13,8 +13,11 @@
   이름 <input type="text" name="name"><br>
   연락처 <input type="text" name="phone"><br>
   병원명 <input type="text" name="hospital"><br>
-  진료과목 <input type="text" name="treatType"><br>
-  진료시간 <input type="text" name="hTime"><br>
+  진료과목 <input type="radio" name="treatType" value="내과">내과&nbsp;
+    <input type="radio" name="treatType" value="외과">외과&nbsp;
+    <input type="radio" name="treatType" value="산부인과">산부인과&nbsp;
+    <input type="radio" name="treatType" value="피부과">피부과<br>
+  진료시간 <input type="time" name="startHour"> ~ <input type="time" name="endHour"><br>
   <input type="submit" value="회원가입">
 </form>
 </body>
