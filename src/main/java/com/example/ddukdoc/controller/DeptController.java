@@ -84,14 +84,21 @@ public class DeptController {
 
 
     // 질문 삭제 (”/delete”)
+//    @PostMapping("/delete")
+//    public String deleteQna(@RequestParam("id") Integer qnaId) {
+//        QnA qna = qnARepository.findById(qnaId).orElse(null);
+//        if (qna != null) {
+//            qnARepository.delete(qna);
+//        }
+//        return "redirect:/";
+//    }
+
     @PostMapping("/delete")
     public String deleteQna(@RequestParam("id") Integer qnaId) {
-        QnA qna = qnARepository.findById(qnaId).orElse(null);
-        if (qna != null) {
-            qnARepository.delete(qna);
-        }
-        return "redirect:/";
+        qnARepository.deleteById(qnaId);  // 바로 삭제
+        return "redirect:/dept/list";     // 목록 페이지로 이동
     }
+
 
     // 질문 상세 조회 (”/detail”)
     @GetMapping("/detail")
@@ -111,6 +118,4 @@ public class DeptController {
 
         return "detail";
     }
-
-
 }
