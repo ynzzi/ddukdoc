@@ -71,7 +71,7 @@
               <td style="color: ${qna.isAnswered === 'Y' ? 'green' : 'red'}">
                 ${qna.isAnswered === 'Y' ? '답변 완료' : '답변 대기'}
               </td>
-              <td><a href="/qna/view/${qna.id}">보기</a></td>
+              <td><a href="/dept/detail?id=${qna.id}">보기</a></td>
             `;
             tbody.appendChild(tr);
           });

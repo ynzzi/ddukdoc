@@ -22,6 +22,6 @@ public class Doctor {
     private String treatType; // 진료과목
 
     @Column(name = "h_time")
-    private String hTime; // 진료시간
+    private String hTime; // 진료시간ㄴㄴ
 }
 

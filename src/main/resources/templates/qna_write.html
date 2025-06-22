@@ -57,8 +57,9 @@
           });
 
           if (res.ok) {
+              const data = await res.json();
               alert("문의가 등록되었습니다.");
-              location.href = "/dept/list";
+              location.href = `/dept/list?name=${encodeURIComponent(data.treatType)}`;
           } else {
               const error = await res.text();
               alert("등록 실패: " + error);

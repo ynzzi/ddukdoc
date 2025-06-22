@@ -1,8 +1,10 @@
 package com.example.ddukdoc.controller;
 
 import com.example.ddukdoc.dto.QnaRequestDTO;
+import com.example.ddukdoc.entity.Doctor;
 import com.example.ddukdoc.entity.Member;
 import com.example.ddukdoc.entity.QnA;
+import com.example.ddukdoc.repository.DoctorRepository;
 import com.example.ddukdoc.repository.MemberRepository;
 import com.example.ddukdoc.repository.QnARepository;
 import com.example.ddukdoc.utils.JWTUtil;
@@ -14,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -24,6 +27,9 @@ public class QnAController {
 
     @Autowired
     private MemberRepository memberRepository;
+
+    @Autowired
+    private DoctorRepository doctorRepository;
 
     @Autowired
     private JWTUtil jwtUtil;
@@ -54,8 +60,11 @@ public class QnAController {
 
 
             // 3. 의사 정보 추출
-            Member doctor = memberRepository.findById(dto.getDoctorId())
+            Member doctorMember = memberRepository.findById(dto.getDoctorId())
                     .orElseThrow(() -> new RuntimeException("의사 정보 없음"));
+
+            Doctor doctor = doctorRepository.findById(dto.getDoctorId())
+                    .orElseThrow(() -> new RuntimeException("Doctor 상세 정보 없음"));
 
             // 4. QnA 엔티티 생성 및 설정
             QnA qna = new QnA();
@@ -63,12 +72,15 @@ public class QnAController {
             qna.setContent(dto.getContent());
             qna.setIsAnswered("N"); // 미답변 상태
             qna.setWriter(writer);
-            qna.setDoctor(doctor);
+            qna.setDoctor(doctorMember);
 
             // 5. DB에 저장
             qnaRepository.save(qna);
 
-            return ResponseEntity.ok().body(Map.of("message", "등록 완료"));
+            return ResponseEntity.ok(Map.of(
+                    "message", "등록 완료",
+                    "treatType", doctor.getTreatType()
+            ));
 
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("오류 발생: " + e.getMessage());
