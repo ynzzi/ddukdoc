@@ -1,9 +1,102 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Doctor Reply Form</title>
-    <link rel="stylesheet" href="/css/replyForm.css">
+    <style>
+        :root {
+          --mint-primary: #3EB489;
+          --mint-light: #E0F2F1;
+          --mint-dark: #2A7864;
+          --gray-light: #F7F9FA;
+          --gray-mid: #B0B9BD;
+          --gray-dark: #4A4A4A;
+          --white: #FFFFFF;
+        }
+        body {
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          background-color: var(--gray-light);
+          color: var(--gray-dark);
+          margin: 2rem auto;
+          max-width: 600px;
+          padding: 1rem 2rem;
+          line-height: 1.5;
+        }
+        h1 {
+          color: var(--mint-primary);
+          font-weight: 700;
+          margin-bottom: 1rem;
+          border-bottom: 3px solid var(--mint-primary);
+          padding-bottom: 0.5rem;
+        }
+        hr {
+          border: none;
+          border-top: 1.5px solid var(--mint-light);
+          margin: 2rem 0;
+        }
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-bottom: 1.5rem;
+          font-size: 1rem;
+          color: var(--gray-dark);
+        }
+        td {
+          padding: 0.5rem 0;
+        }
+        strong {
+          color: var(--mint-dark);
+          font-weight: 600;
+        }
+        form label {
+          display: block;
+          margin-top: 1rem;
+          margin-bottom: 0.3rem;
+          font-weight: 600;
+          color: var(--mint-dark);
+        }
+        input[type="text"],
+        textarea {
+          width: 100%;
+          padding: 0.5rem 0.8rem;
+          border: 1.5px solid var(--mint-light);
+          border-radius: 6px;
+          font-size: 1rem;
+          color: var(--gray-dark);
+          resize: vertical;
+          transition: border-color 0.3s ease;
+        }
+        input[type="text"]:focus,
+        textarea:focus {
+          border-color: var(--mint-primary);
+          outline: none;
+        }
+        textarea {
+          min-height: 120px;
+        }
+        input[readonly] {
+          background-color: var(--gray-light);
+          cursor: not-allowed;
+        }
+        button {
+          background-color: var(--mint-primary);
+          color: var(--white);
+          border: none;
+          padding: 0.8rem 1.6rem;
+          border-radius: 8px;
+          font-weight: 700;
+          font-size: 1.1rem;
+          cursor: pointer;
+          box-shadow: 0 4px 8px rgba(62, 180, 137, 0.5);
+          transition: background-color 0.3s ease;
+          margin-top: 1.5rem;
+          width: 100%;
+        }
+        button:hover {
+          background-color: var(--mint-dark);
+          box-shadow: 0 5px 12px rgba(42, 120, 100, 0.7);
+        }
+    </style>
 </head>
 <body>
 <h1>답변</h1>
@@ -23,8 +116,7 @@
     <tr>
         <td>
             <strong>문의내용</strong><br>
-            <div th:text="${qna.content}"
-                 style="white-space: pre-line; padding-top:0.25rem;"></div>
+            <div th:text="${qna.content}" style="white-space: pre-line; padding-top:0.25rem;"></div>
         </td>
     </tr>
     </tbody>
@@ -35,17 +127,17 @@
 <form action="/doc/regProc" method="post">
     <input type="hidden" name="id" th:value="${qna.id}">
 
-    <label>담당의사 ID:</label>
-    <input type="text" name="username" th:value="${doctor.member.username}" readonly>
+    <label for="username">담당의사 ID:</label>
+    <input type="text" id="username" name="username" th:value="${doctor.member.username}" readonly>
 
-    <label>담당의사 이름:</label>
-    <input type="text" name="name" th:value="${doctor.member.name}" readonly>
+    <label for="name">담당의사 이름:</label>
+    <input type="text" id="name" name="name" th:value="${doctor.member.name}" readonly>
 
-    <label>진료과목:</label>
-    <input type="text" name="treatType" th:value="${doctor.treatType}" readonly>
+    <label for="treatType">진료과목:</label>
+    <input type="text" id="treatType" name="treatType" th:value="${doctor.treatType}" readonly>
 
-    <label>답변 내용:</label>
-    <textarea name="answer" placeholder="답변을 입력하세요"></textarea>
+    <label for="answer">답변 내용:</label>
+    <textarea id="answer" name="answer" placeholder="답변을 입력하세요"></textarea>
 
     <button type="submit">등록</button>
 </form>

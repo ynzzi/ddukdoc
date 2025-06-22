@@ -1,23 +1,176 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="UTF-8" />
+  <title>의사 전용 회원가입</title>
+  <style>
+    /* ====== 민트톤 모던 스타일 ====== */
+    :root {
+      --mint-primary: #3EB489;
+      --mint-light: #E0F2F1;
+      --mint-dark: #2A7864;
+      --gray-light: #F7F9FA;
+      --gray-mid: #B0B9BD;
+      --gray-dark: #4A4A4A;
+      --white: #FFFFFF;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--gray-light);
+      color: var(--gray-dark);
+      margin: 2rem auto;
+      max-width: 700px;
+      padding: 1rem 2rem;
+      line-height: 1.5;
+    }
+    h1 {
+      color: var(--mint-primary);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      border-bottom: 3px solid var(--mint-primary);
+      padding-bottom: 0.5rem;
+    }
+    h2 {
+      color: var(--mint-dark);
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      border-left: 6px solid var(--mint-primary);
+      padding-left: 0.8rem;
+    }
+    p {
+      margin: 0.3rem 0 1rem 0;
+      font-size: 1.05rem;
+    }
+    strong {
+      color: var(--mint-dark);
+    }
+    hr {
+      border: none;
+      border-top: 1.5px solid var(--mint-light);
+      margin: 2rem 0;
+    }
+    /* 버튼 */
+    button, input[type="submit"] {
+      background-color: var(--mint-primary);
+      color: var(--white);
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 3px 6px rgba(62, 180, 137, 0.4);
+      transition: background-color 0.3s ease;
+      margin-top: 1rem;
+    }
+    button:hover, input[type="submit"]:hover {
+      background-color: var(--mint-dark);
+      box-shadow: 0 4px 8px rgba(42, 120, 100, 0.6);
+    }
+    /* 뒤로가기 링크 */
+    a {
+      display: inline-block;
+      margin-top: 2rem;
+      color: var(--mint-primary);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+    a:hover {
+      color: var(--mint-dark);
+      text-decoration: underline;
+    }
+    /* 폼 스타일 */
+    form {
+      background-color: var(--white);
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(62, 180, 137, 0.15);
+    }
+    label {
+      display: block;
+      margin-bottom: 0.4rem;
+      font-weight: 600;
+      color: var(--mint-dark);
+    }
+    input[type="text"],
+    input[type="password"],
+    input[type="time"] {
+      width: 100%;
+      padding: 0.5rem 0.6rem;
+      margin-bottom: 1rem;
+      border: 1.5px solid var(--gray-mid);
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+    input[type="text"]:focus,
+    input[type="password"]:focus,
+    input[type="time"]:focus {
+      outline: none;
+      border-color: var(--mint-primary);
+      box-shadow: 0 0 5px var(--mint-light);
+    }
+    .radio-group {
+      margin-bottom: 1rem;
+      color: var(--gray-dark);
+    }
+    .radio-group label {
+      display: inline-block;
+      margin-right: 1.2rem;
+      font-weight: 500;
+      cursor: pointer;
+      color: var(--gray-dark);
+    }
+    .radio-group input[type="radio"] {
+      margin-right: 0.3rem;
+      cursor: pointer;
+    }
+    .time-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .time-group input[type="time"] {
+      width: auto;
+      flex-grow: 1;
+    }
+  </style>
 </head>
 <body>
 <h1>의사 전용 회원가입</h1>
 <hr>
 <form action="/regist/doctorRegist" method="post">
-  아이디 <input type="text" name="username"><br>
-  비밀번호 <input type="password" name="password"><br>
-  이름 <input type="text" name="name"><br>
-  연락처 <input type="text" name="phone"><br>
-  병원명 <input type="text" name="hospital"><br>
-  진료과목 <input type="radio" name="treatType" value="내과">내과&nbsp;
-    <input type="radio" name="treatType" value="외과">외과&nbsp;
-    <input type="radio" name="treatType" value="산부인과">산부인과&nbsp;
-    <input type="radio" name="treatType" value="피부과">피부과<br>
-  진료시간 <input type="time" name="startHour"> ~ <input type="time" name="endHour"><br>
+  <label for="username">아이디</label>
+  <input type="text" id="username" name="username" required>
+
+  <label for="password">비밀번호</label>
+  <input type="password" id="password" name="password" required>
+
+  <label for="name">이름</label>
+  <input type="text" id="name" name="name" required>
+
+  <label for="phone">연락처</label>
+  <input type="text" id="phone" name="phone" required>
+
+  <label for="hospital">병원명</label>
+  <input type="text" id="hospital" name="hospital" required>
+
+  <div class="radio-group">
+    <span>진료과목</span><br>
+    <label><input type="radio" name="treatType" value="내과" required>내과</label>
+    <label><input type="radio" name="treatType" value="외과">외과</label>
+    <label><input type="radio" name="treatType" value="산부인과">산부인과</label>
+    <label><input type="radio" name="treatType" value="피부과">피부과</label>
+  </div>
+
+  <div class="time-group">
+    <label for="startHour">진료시간</label>
+    <input type="time" id="startHour" name="startHour" required>
+    <span>~</span>
+    <input type="time" id="endHour" name="endHour" required>
+  </div>
+
   <input type="submit" value="회원가입">
 </form>
 </body>
