@@ -40,10 +40,11 @@ public class LoginController {
                     .body("아이디 또는 비밀번호를 확인하세요.");
         }
 
-        // 토큰 생성
+        // JWT 토큰 생성
         String jwt = jwtUtil.createJwt(loginMember);
+        String bearerToken = "Bearer " + jwt;
 
-        // 쿠키 심기
+        // 쿠키 생성
         ResponseCookie cookie = ResponseCookie.from("token", jwt)
                 .path("/")
                 .httpOnly(true)
@@ -54,9 +55,11 @@ public class LoginController {
         );
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.SET_COOKIE, cookie.toString())
-                .body(body);
+                .header(HttpHeaders.SET_COOKIE, cookie.toString())     // 쿠키 심기
+                .header(HttpHeaders.AUTHORIZATION, bearerToken)      // 친구 코드용 토큰 반환
+                .body(body);                                         // 내 코드용 role 반환
     }
+
 
     private String makeToken(Member member){
         String token = "Bearer " +  jwtUtil.createJwt(member);
