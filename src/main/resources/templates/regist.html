@@ -1,13 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8" />
+    <title>회원가입 선택</title>
+    <style>
+        :root {
+          --mint-primary: #3EB489;
+          --mint-light: #E0F2F1;
+          --mint-dark: #2A7864;
+          --gray-light: #F7F9FA;
+          --gray-mid: #B0B9BD;
+          --gray-dark: #4A4A4A;
+          --white: #FFFFFF;
+        }
+        body {
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          background-color: var(--gray-light);
+          color: var(--gray-dark);
+          margin: 3rem auto;
+          max-width: 400px;
+          padding: 2rem;
+          text-align: center;
+          line-height: 1.5;
+        }
+        h1 {
+          color: var(--mint-primary);
+          font-weight: 700;
+          margin-bottom: 0.5rem;
+          border-bottom: 3px solid var(--mint-primary);
+          padding-bottom: 0.5rem;
+        }
+        hr {
+          border: none;
+          border-top: 1.5px solid var(--mint-light);
+          margin: 2rem 0;
+        }
+       a {
+          display: inline-block;
+          width: 160px;
+          margin: 1rem 1rem 0 1rem;
+          padding: 1rem 0;
+          font-size: 1.25rem;
+          background-color: var(--mint-primary);
+          color: var(--white);
+          text-decoration: none;
+          font-weight: 700;
+          border-radius: 10px;
+          box-shadow: 0 4px 8px rgba(62, 180, 137, 0.5);
+          transition: background-color 0.3s ease;
+          cursor: pointer;
+        }
+        a:hover {
+          background-color: var(--mint-dark);
+          box-shadow: 0 6px 12px rgba(42, 120, 100, 0.7);
+          text-decoration: none;
+        }
+
+    </style>
 </head>
 <body>
 <h1>회원가입</h1>
 <hr>
-<a href="/regist/memberRegistForm">사용자</a><br>
+<a href="/regist/memberRegistForm">사용자</a>
 <a href="/regist/doctorRegistForm">의사</a>
 </body>
 </html>

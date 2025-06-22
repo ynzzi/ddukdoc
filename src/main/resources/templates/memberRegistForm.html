@@ -1,17 +1,103 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8" />
+    <title>사용자 전용 회원가입</title>
+    <style>
+        :root {
+          --mint-primary: #3EB489;
+          --mint-light: #E0F2F1;
+          --mint-dark: #2A7864;
+          --gray-light: #F7F9FA;
+          --gray-mid: #B0B9BD;
+          --gray-dark: #4A4A4A;
+          --white: #FFFFFF;
+        }
+        body {
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          background-color: var(--gray-light);
+          color: var(--gray-dark);
+          margin: 2rem auto;
+          max-width: 700px;
+          padding: 1rem 2rem;
+          line-height: 1.5;
+        }
+        h1 {
+          color: var(--mint-primary);
+          font-weight: 700;
+          margin-bottom: 0.5rem;
+          border-bottom: 3px solid var(--mint-primary);
+          padding-bottom: 0.5rem;
+        }
+        hr {
+          border: none;
+          border-top: 1.5px solid var(--mint-light);
+          margin: 2rem 0;
+        }
+        form {
+          background-color: var(--white);
+          padding: 2rem;
+          border-radius: 12px;
+          box-shadow: 0 4px 10px rgba(62, 180, 137, 0.15);
+        }
+        label {
+          display: block;
+          margin-bottom: 0.4rem;
+          font-weight: 600;
+          color: var(--mint-dark);
+        }
+        input[type="text"],
+        input[type="password"] {
+          width: 100%;
+          padding: 0.5rem 0.6rem;
+          margin-bottom: 1rem;
+          border: 1.5px solid var(--gray-mid);
+          border-radius: 6px;
+          font-size: 1rem;
+          transition: border-color 0.3s ease;
+        }
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+          outline: none;
+          border-color: var(--mint-primary);
+          box-shadow: 0 0 5px var(--mint-light);
+        }
+        input[type="submit"] {
+          background-color: var(--mint-primary);
+          color: var(--white);
+          border: none;
+          padding: 0.7rem 1.5rem;
+          border-radius: 8px;
+          font-weight: 700;
+          cursor: pointer;
+          box-shadow: 0 4px 8px rgba(62, 180, 137, 0.5);
+          transition: background-color 0.3s ease;
+          margin-top: 1rem;
+          font-size: 1.1rem;
+          width: 100%;
+        }
+        input[type="submit"]:hover {
+          background-color: var(--mint-dark);
+          box-shadow: 0 6px 12px rgba(42, 120, 100, 0.7);
+        }
+    </style>
 </head>
 <body>
 <h1>사용자 전용 회원가입</h1>
 <hr>
 <form action="/regist/memberRegist" method="post">
-    아이디 <input type="text" name="username"><br>
-    비밀번호 <input type="password" name="password"><br>
-    이름 <input type="text" name="name"><br>
-    연락처 <input type="text" name="phone"><br>
+    <label for="username">아이디</label>
+    <input type="text" id="username" name="username" required>
+
+    <label for="password">비밀번호</label>
+    <input type="password" id="password" name="password" required>
+
+    <label for="name">이름</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="phone">연락처</label>
+    <input type="text" id="phone" name="phone" required>
+
     <input type="submit" value="회원가입">
 </form>
 </body>
