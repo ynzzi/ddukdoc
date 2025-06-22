@@ -14,37 +14,31 @@
 </form>
 
 <script>
-    function login(){
+    function login() {
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
 
-        const member = {
-            username: username,
-            password: password
-        };
-        const xhr = new XMLHttpRequest();
-        xhr.onload = function(){
-            if(xhr.status === 200){
-                const token = xhr.getResponseHeader('Authorization');
-                if(token){
-                    localStorage.setItem('token', token);
-                    location.href='/';
-                }else{
-                    console.log('토큰 생성 실패');
-                }
+        fetch('/login/loginReg', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ username, password })
+        })
+        .then(res => {
+            if(res.status === 200) return res.json();
+            else throw new Error('401');
+        })
+        .then(data => {
+            if (data.role === 'DOCTOR') {
+                location.href = '/doc/qnaList';
+            } else {
+                location.href = '/member/main';
             }
-            else if(xhr.status === 401){
-                location.href='/login';
-                alert(xhr.responseText);
-            }
-            else{
-                console.log('오류 발생');
-            }
-        }
-        xhr.open('post', '/login/loginReg');
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify(member));
+        })
+        .catch(() => {
+            alert('아이디 또는 비밀번호를 확인하세요');
+        });
     }
 </script>
+
 </body>
 </html>

@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Doctor Reply Form</title>
+    <link rel="stylesheet" href="/css/replyForm.css">
 </head>
 <body>
 <h1>답변</h1>
@@ -10,24 +11,43 @@
 
 <table>
     <tbody>
-        <tr>
-            <td>작성일: </td>
-        </tr>
-        <tr>
-            <td>작성자: </td>
-        </tr>
-        <tr>
-            <td>제목 : </td>
-        </tr>
-        <tr>
-            <td>문의 내용</td>
-        </tr>
+    <tr>
+        <td th:text="|작성일: ${#temporals.format(qna.createdAt, 'yyyy-MM-dd HH:mm:ss')}|"></td>
+    </tr>
+    <tr>
+        <td th:text="|작성자: ${qna.writer.username}|"></td>
+    </tr>
+    <tr>
+        <td th:text="|제목: ${qna.title}|"></td>
+    </tr>
+    <tr>
+        <td>
+            <strong>문의내용</strong><br>
+            <div th:text="${qna.content}"
+                 style="white-space: pre-line; padding-top:0.25rem;"></div>
+        </td>
+    </tr>
     </tbody>
 </table>
+
 <hr>
+
 <form action="/doc/regProc" method="post">
-    답변<br>
-    <textarea>답변을 입력하세요</textarea>
+    <input type="hidden" name="id" th:value="${qna.id}">
+
+    <label>담당의사 ID:</label>
+    <input type="text" name="username" th:value="${doctor.member.username}" readonly>
+
+    <label>담당의사 이름:</label>
+    <input type="text" name="name" th:value="${doctor.member.name}" readonly>
+
+    <label>진료과목:</label>
+    <input type="text" name="treatType" th:value="${doctor.treatType}" readonly>
+
+    <label>답변 내용:</label>
+    <textarea name="answer" placeholder="답변을 입력하세요"></textarea>
+
+    <button type="submit">등록</button>
 </form>
 </body>
 </html>
