@@ -21,7 +21,7 @@ public class QnA extends BaseEntity{
     private String answer;
 
     @Column(name = "is_answered")
-    private String isAnswered; // 답변여부
+    private String isAnswered; // 답변여부(Y/N)
 
     @Column(name = "answertime")
     private LocalDateTime answeredAt;
@@ -32,7 +32,8 @@ public class QnA extends BaseEntity{
     private Member writer;
 
     // 답변자 (Doctor 테이블 외래키)
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "doctor_id")
     private Member doctor;
 }
+

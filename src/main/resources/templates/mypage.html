@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <title>마이페이지</title>
+    <style>
+        :root {
+          --mint-primary: #3EB489;
+          --mint-light: #E0F2F1;
+          --mint-dark: #2A7864;
+          --gray-light: #F7F9FA;
+          --gray-mid: #B0B9BD;
+          --gray-dark: #4A4A4A;
+          --white: #FFFFFF;
+        }
+        body {
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          background-color: var(--gray-light);
+          color: var(--gray-dark);
+          margin: 2rem auto;
+          max-width: 700px;
+          padding: 1rem 2rem;
+          line-height: 1.5;
+        }
+        h2 {
+          color: var(--mint-dark);
+          margin-top: 2rem;
+          margin-bottom: 1rem;
+          border-left: 6px solid var(--mint-primary);
+          padding-left: 0.8rem;
+          font-weight: 700;
+        }
+        #userInfo p {
+          font-size: 1.05rem;
+          margin: 0.3rem 0;
+        }
+        #userInfo strong {
+          color: var(--mint-dark);
+          width: 90px;
+          display: inline-block;
+        }
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-top: 1rem;
+          background: var(--white);
+          box-shadow: 0 2px 8px rgba(62, 180, 137, 0.1);
+        }
+        th, td {
+          border: 1px solid var(--mint-light);
+          padding: 0.6rem 1rem;
+          text-align: center;
+          font-size: 1rem;
+        }
+        th {
+          background-color: var(--mint-light);
+          color: var(--mint-dark);
+          font-weight: 600;
+        }
+        a {
+          color: var(--mint-primary);
+          font-weight: 600;
+          text-decoration: none;
+          transition: color 0.3s ease;
+        }
+        a:hover {
+          color: var(--mint-dark);
+          text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<h2>회원 정보</h2>
+<div id="userInfo">
+    <p><strong>이름:</strong> <span id="name"></span></p>
+    <p><strong>아이디:</strong> <span id="username"></span></p>
+    <p><strong>전화번호:</strong> <span id="phone"></span></p>
+    <p><strong>회원 유형:</strong> <span id="role"></span></p>
+</div>
+
+<h2>문의 내역</h2>
+<table>
+    <thead>
+    <tr>
+        <th>제목</th>
+        <th>작성일</th>
+        <th>답변 여부</th>
+        <th>보기</th>
+    </tr>
+    </thead>
+    <tbody id="qnaTableBody">
+    <tr><td colspan="4">불러오는 중...</td></tr>
+    </tbody>
+</table>
+
+<script>
+    window.onload = function () {
+      let token = localStorage.getItem("token");
+      if (!token) {
+        alert("로그인이 필요합니다.");
+        location.href = "/login";
+        return;
+      }
+
+      fetch("/api/mypage", {
+        method: "GET",
+        headers: {
+          "Authorization": token
+        }
+      })
+      .then(res => {
+        if (!res.ok) throw new Error("인증 실패");
+        return res.json();
+      })
+      .then(data => {
+        const member = data.member;
+        const qnaList = data.qnaList;
+
+        document.getElementById("name").innerText = member.name;
+        document.getElementById("username").innerText = member.username;
+        document.getElementById("phone").innerText = member.phone;
+        document.getElementById("role").innerText = member.role === "DOCTOR" ? "의사회원" : "일반회원";
+
+        const tbody = document.getElementById("qnaTableBody");
+        tbody.innerHTML = "";
+
+        if (!qnaList || qnaList.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;">문의 내역이 없습니다.</td></tr>`;
+        } else {
+          qnaList.forEach(qna => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+              <td>${qna.title}</td>
+              <td>${qna.createdAt?.split('T')[0] || ''}</td>
+              <td style="color: ${qna.isAnswered === 'Y' ? 'green' : 'red'}">
+                ${qna.isAnswered === 'Y' ? '답변 완료' : '답변 대기'}
+              </td>
+              <td><a href="/dept/detail?id=${qna.id}">보기</a></td>
+            `;
+            tbody.appendChild(tr);
+          });
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        alert("로그인이 필요합니다.");
+        location.href = "/login";
+      });
+    }
+</script>
+<script src="/js/tokenCheck.js"></script>
+</body>
+</html>

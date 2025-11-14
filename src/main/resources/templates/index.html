@@ -1,10 +1,139 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8" />
+    <title>뚝닥닥 - 진료과 선택</title>
+    <style>
+        /* ====== 민트톤 모던 스타일 ====== */
+        :root {
+          --mint-primary: #3EB489;
+          --mint-light: #E0F2F1;
+          --mint-dark: #2A7864;
+          --gray-light: #F7F9FA;
+          --gray-dark: #4A4A4A;
+          --white: #FFFFFF;
+        }
+
+        body {
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          background-color: var(--gray-light);
+          color: var(--gray-dark);
+          margin: 0;
+          padding: 0;
+        }
+
+        .container {
+          max-width: 800px;
+          margin: 3rem auto;
+          padding: 2rem;
+          background-color: var(--white);
+          border-radius: 12px;
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .top-bar {
+          display: flex;
+          justify-content: flex-end;
+          gap: 1rem;
+          font-size: 0.9rem;
+          margin-bottom: 1rem;
+          color: var(--gray-mid);
+        }
+
+        .top-bar a {
+          color: var(--gray-mid);
+          text-decoration: none;
+          font-weight: 500;
+          transition: color 0.3s ease;
+        }
+
+        .top-bar a:hover {
+          color: var(--mint-dark);
+        }
+
+        h1 {
+          color: var(--mint-primary);
+          font-weight: 700;
+          margin-bottom: 1.5rem;
+          border-bottom: 3px solid var(--mint-primary);
+          padding-bottom: 0.5rem;
+          font-size: 1.8rem;
+        }
+
+        /* 버튼 그리드 */
+        .dept-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 1.5rem;
+          margin-top: 2rem;
+        }
+
+        .dept-btn {
+          width: 100%;
+          height: 120px;
+          background-color: var(--mint-primary);
+          color: var(--white);
+          border: none;
+          border-radius: 10px;
+          font-size: 1.2rem;
+          font-weight: 600;
+          cursor: pointer;
+          box-shadow: 0 4px 8px rgba(62, 180, 137, 0.3);
+          transition: all 0.3s ease;
+          padding: 1rem;
+        }
+
+        .dept-btn:hover {
+          background-color: var(--mint-dark);
+          box-shadow: 0 6px 12px rgba(42, 120, 100, 0.4);
+        }
+
+        @media (max-width: 600px) {
+          .dept-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .dept-btn {
+            height: 100px;
+          }
+        }
+    </style>
 </head>
 <body>
-  <h1>Index Page</h1>
+
+<div class="container">
+    <!-- 상단 링크 -->
+    <div class="top-bar">
+        <button onclick="goToMypage()" style="background: none; border: none; color: inherit; cursor: pointer;">마이페이지</button>
+        <a href="/login">로그인</a>
+        <a href="/regist">회원가입</a>
+    </div>
+
+    <!-- 제목 -->
+    <h1>진료 과를 선택하세요</h1>
+
+    <!-- 진료과 버튼 -->
+    <form action="/dept/list" method="get">
+        <div class="dept-grid">
+            <button class="dept-btn" name="name" value="내과">내과</button>
+            <button class="dept-btn" name="name" value="외과">외과</button>
+            <button class="dept-btn" name="name" value="산부인과">산부인과</button>
+            <button class="dept-btn" name="name" value="피부과">피부과</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function goToMypage() {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("로그인이 필요합니다.");
+        location.href = "/login";
+        return;
+      }
+      location.href = "/mypage";
+    }
+</script>
+
 </body>
 </html>

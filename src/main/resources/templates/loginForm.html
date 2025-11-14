@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>로그인</title>
+    <style>
+        :root {
+          --mint-primary: #3EB489;
+          --mint-light: #E0F2F1;
+          --mint-dark: #2A7864;
+          --gray-light: #F7F9FA;
+          --gray-mid: #B0B9BD;
+          --gray-dark: #4A4A4A;
+          --white: #FFFFFF;
+        }
+        body {
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          background-color: var(--gray-light);
+          color: var(--gray-dark);
+          margin: 2rem auto;
+          max-width: 400px;
+          padding: 1rem 2rem;
+          line-height: 1.5;
+        }
+        h1 {
+          color: var(--mint-primary);
+          font-weight: 700;
+          margin-bottom: 1rem;
+          border-bottom: 3px solid var(--mint-primary);
+          padding-bottom: 0.5rem;
+        }
+        form {
+          margin-top: 1rem;
+        }
+        label, input {
+          display: block;
+          font-size: 1.1rem;
+          margin-bottom: 0.7rem;
+        }
+        input[type="text"],
+        input[type="password"] {
+          width: 100%;
+          padding: 0.5rem 0.8rem;
+          font-size: 1rem;
+          border: 1.5px solid var(--mint-light);
+          border-radius: 6px;
+          transition: border-color 0.3s ease;
+        }
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+          border-color: var(--mint-primary);
+          outline: none;
+        }
+        button {
+          background-color: var(--mint-primary);
+          color: var(--white);
+          border: none;
+          padding: 0.75rem 1.5rem;
+          border-radius: 8px;
+          font-weight: 700;
+          font-size: 1.1rem;
+          cursor: pointer;
+          box-shadow: 0 4px 10px rgba(62, 180, 137, 0.5);
+          transition: background-color 0.3s ease;
+          margin-top: 1rem;
+          width: 100%;
+        }
+        button:hover {
+          background-color: var(--mint-dark);
+          box-shadow: 0 5px 12px rgba(42, 120, 100, 0.7);
+        }
+        a {
+          display: inline-block;
+          margin-top: 1.5rem;
+          color: var(--mint-primary);
+          text-decoration: none;
+          font-weight: 600;
+          transition: color 0.3s ease;
+        }
+        a:hover {
+          color: var(--mint-dark);
+          text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<h1>로그인</h1>
+<form>
+    <label for="username">아이디</label>
+    <input type="text" id="username" name="username" autocomplete="username" />
+
+    <label for="password">비밀번호</label>
+    <input type="password" id="password" name="password" autocomplete="current-password" />
+
+    <button type="button" onclick="login()">로그인</button>
+</form>
+<a href="/regist">회원가입</a>
+
+<script>
+    function login() {
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value.trim();
+
+        if(!username || !password) {
+            alert('아이디와 비밀번호를 모두 입력해주세요.');
+            return;
+        }
+
+        fetch('/login/loginReg', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ username, password })
+        })
+        .then(res => {
+            if (res.status === 200) {
+                const token = res.headers.get('Authorization');
+                return res.json().then(data => ({ role: data.role, token }));
+            } else {
+                return res.text().then(msg => { throw new Error(msg); });
+            }
+        })
+        .then(data => {
+            if (data.token) {
+                localStorage.setItem('token', data.token);
+            }
+            if (data.role === 'DOCTOR') {
+                location.href = '/doc/qnaList';
+            } else {
+                location.href = '/';
+            }
+        })
+        .catch(err => {
+            alert(err.message || '아이디 또는 비밀번호를 확인하세요');
+        });
+    }
+</script>
+
+</body>
+</html>
